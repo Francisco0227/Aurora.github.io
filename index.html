@@ -114,10 +114,10 @@
             align-items: center;
             padding: 10px 0;
             width: 100%;
-            position: absolute;
+            position: fixed; /* Cambiado a fixed para que se mantenga visible al hacer scroll */
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            background: rgba(10, 37, 64, 0.8); /* Fondo semi-transparente */
+            backdrop-filter: blur(5px);
             z-index: 10;
         }
         .logo img {
@@ -150,6 +150,24 @@
         .cta-button:hover {
             background-color: #008f65;
             transform: translateY(-2px);
+        }
+
+        /* Botón de hamburguesa y menú móvil */
+        .hamburger-menu {
+            display: none; /* Oculto por defecto */
+            cursor: pointer;
+            z-index: 11;
+        }
+        .hamburger-menu .bar {
+            width: 30px;
+            height: 3px;
+            background-color: var(--blanco);
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        .nav-links-mobile {
+            display: none;
         }
 
         /* Contenido de la Hero Section */
@@ -310,19 +328,57 @@
             .hero-slogan {
                 font-size: 1.5rem;
             }
+            
+            /* Estilos del menú móvil */
             .navbar {
-                flex-direction: column;
-                align-items: center;
-                position: relative;
-                transform: none;
+                flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+                justify-content: space-between;
+                padding: 10px 20px;
+                position: fixed;
+                width: 100%;
+                left: 0;
             }
             .nav-links {
+                display: none; /* Oculta los enlaces de escritorio */
+            }
+            .nav-links-mobile {
+                display: flex;
                 flex-direction: column;
-                margin-top: 20px;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: var(--azul-profundo);
+                padding: 40px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 9;
             }
-            .main-logo-container h1 {
-                font-size: 3.5rem;
+            .nav-links-mobile.open {
+                transform: translateX(0);
             }
+            .hamburger-menu {
+                display: block; /* Muestra el botón de hamburguesa en móvil */
+            }
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 8;
+            }
+            .overlay.open {
+                display: block;
+            }
+
             .footer .container {
                 flex-direction: column;
                 gap: 20px;
@@ -342,13 +398,30 @@
             <a href="#hero" class="logo" aria-label="Página de inicio de Aurora">
                 <img src="https://github.com/Francisco0227/Aurora.github.io/blob/main/Logo%20de%20Aurora%20blanco%20sin%20fondo.png?raw=true" alt="Logo de Aurora">
             </a>
+            <!-- Menú de hamburguesa (visible solo en móviles) -->
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            
+            <!-- Enlaces de navegación de escritorio (ocultos en móviles) -->
             <nav class="nav-links">
                 <a href="#features" class="nav-link">Características</a>
                 <a href="#about" class="nav-link">Sobre nosotros</a>
                 <a href="#waitlist" class="nav-link">Contacto</a>
                 <a href="#waitlist" class="cta-button">Probar Aurora</a>
             </nav>
+
+            <!-- Menú de navegación móvil (oculto por defecto) -->
+            <nav class="nav-links-mobile">
+                <a href="#features" class="nav-link-mobile">Características</a>
+                <a href="#about" class="nav-link-mobile">Sobre nosotros</a>
+                <a href="#waitlist" class="nav-link-mobile">Contacto</a>
+                <a href="#waitlist" class="cta-button">Probar Aurora</a>
+            </nav>
         </header>
+        <div class="overlay"></div>
         
         <div class="hero-content container">
             <div class="hero-text">
@@ -451,6 +524,23 @@
         const fadeInSections = document.querySelectorAll('.fade-in-section');
         const initialTransforms = new Map();
         const bars = document.querySelectorAll('.bar');
+
+        const hamburger = document.querySelector('.hamburger-menu');
+        const mobileMenu = document.querySelector('.nav-links-mobile');
+        const overlay = document.querySelector('.overlay');
+        const mobileLinks = document.querySelectorAll('.nav-link-mobile');
+
+        // Lógica del menú móvil
+        function toggleMenu() {
+            mobileMenu.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
 
         chartContainer.addEventListener('mousemove', (e) => {
             const rect = chartContainer.getBoundingClientRect();
