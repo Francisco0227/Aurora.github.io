@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plantilla Lilo - Aurora</title>
+    <title>Aurora - El copiloto financiero impulsado por IA</title>
     <style>
+        /* Paleta de colores */
+        :root {
+            --azul-profundo: #0A2540;
+            --verde-esmeralda: #00A676;
+            --blanco: #F9FAFB;
+            --gris-claro: #E5E7EB;
+        }
+
         /* Estilos generales */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #0d0c22;
-            color: #ffffff;
+            color: var(--blanco);
             line-height: 1.6;
+            overflow: hidden; /* Evita barras de desplazamiento */
+            position: relative;
         }
         
         .container {
@@ -21,40 +30,41 @@
             margin: 0 auto;
         }
 
-        /* Tipografía */
-        h1, h2, h3 {
-            font-weight: 700;
-            line-height: 1.2;
+        /* Animación del fondo */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                #0a2540,
+                #2a204e,
+                #00a676,
+                #1a365d
+            );
+            background-size: 200% 200%;
+            animation: gradient-animation 10s ease infinite;
+            z-index: -1;
         }
 
-        h1 {
-            font-size: 3.5rem;
-            color: #ffffff;
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-
-        h2 {
-            font-size: 2.5rem;
-            color: #ffffff;
-        }
-
-        .pink-text {
-            color: #ff57b9;
-        }
-
-        .white-text {
-            color: #ffffff;
-        }
-
-        /* Animación de entrada */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
         }
 
         /* Navegación */
@@ -63,273 +73,281 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
+            width: 100%;
+            position: absolute;
+            top: 0;
         }
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
+        .logo img {
+            height: 40px; /* Tamaño del logo */
         }
         .nav-links {
             display: flex;
             gap: 25px;
+            align-items: center;
         }
         .nav-link {
             text-decoration: none;
-            color: #ffffff;
+            color: var(--blanco);
             font-weight: 600;
             transition: color 0.3s ease;
         }
         .nav-link:hover {
-            color: #ff57b9;
+            color: var(--verde-esmeralda);
+        }
+        .cta-button {
+            background-color: var(--verde-esmeralda);
+            color: var(--blanco);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #008f65;
         }
 
-        /* Secciones */
-        .section {
-            padding: 80px 0;
-        }
-
-        .hero-section {
-            background-color: #100f34;
-            color: #ffffff;
-            text-align: center;
-            padding: 150px 0;
-        }
-        .hero-section h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        .hero-section p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .services-section {
-            background-color: #ffffff;
-            color: #0d0c22;
-            text-align: center;
-        }
-
-        .services-grid {
+        /* Contenido de la Hero Section */
+        .hero-content {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 60px;
-            flex-wrap: wrap;
-        }
-        .service-item {
-            max-width: 350px;
-            text-align: center;
-        }
-
-        .service-item h3 {
-            font-size: 1.5rem;
-            margin: 20px 0 10px;
-            color: #0d0c22;
-        }
-        .service-item p {
-            color: #666;
-            font-size: 1rem;
-        }
-
-        /* Iconos (usando SVG para replicar el estilo) */
-        .icon-svg {
-            width: 80px;
-            height: 80px;
-        }
-        .icon-svg path {
-            fill: #100f34;
-        }
-        .icon-svg circle, .icon-svg line {
-            stroke: #ff57b9;
-            stroke-width: 4px;
-        }
-
-        .approach-section {
-            background-color: #100f34;
-            color: #ffffff;
-        }
-
-        .approach-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
             align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 50px;
         }
-
-        .approach-text {
+        .hero-text {
+            text-align: center; /* Se ha cambiado de 'left' a 'center' */
+            max-width: 500px;
+            position: relative;
+            z-index: 2; /* Asegura que el texto esté sobre el fondo animado */
+        }
+        .logo-and-text {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            align-items: center; /* Centrado horizontal */
+            margin-bottom: 20px;
         }
-        .approach-text h2 {
+        .logo-and-text h2 {
+            font-size: 4rem; /* Tamaño más grande para "Aurora" */
+            margin: 0;
+            line-height: 1;
+        }
+        .hero-text h1 {
             font-size: 3rem;
+            line-height: 1.2;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--gris-claro);
             margin-bottom: 30px;
         }
-
-        .step {
+        .hero-image-container {
+            width: 450px;
+            height: 300px;
+            position: relative;
             display: flex;
-            align-items: center;
-            gap: 20px;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .step-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #ff57b9;
-        }
-        .step-content {
-            flex: 1;
-        }
-        .step-content h3 {
-            font-size: 1.5rem;
-            margin: 0 0 5px;
-        }
-        .step-content p {
-            margin: 0;
-            color: #ccc;
-        }
-        .statue-image {
+        /* Estilos de la gráfica */
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
             width: 100%;
-            height: auto;
+            height: 100%;
+            gap: 5px;
+            position: relative;
+        }
+        .bar {
+            width: 10px;
+            background: linear-gradient(to top, transparent, var(--blanco));
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            opacity: 0;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            position: relative;
+        }
+
+        /* Animación para el crecimiento de las barras */
+        @keyframes grow-bars {
+            0% { transform: scaleY(0.1); opacity: 0; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+
+        /* Clase para animar las barras */
+        .animate-bar {
+            animation: grow-bars 1s ease-out forwards;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar {
+            .hero-content {
                 flex-direction: column;
-                gap: 15px;
+                text-align: center;
             }
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
+            .hero-text {
+                text-align: center;
+                margin-bottom: 40px;
             }
-            .hero-section h1 {
-                font-size: 3rem;
+            .hero-image-container {
+                width: 100%;
+                height: 250px;
             }
-            .approach-grid {
-                grid-template-columns: 1fr;
-            }
-            .approach-text {
-                order: 2;
-            }
-            .statue-image {
-                order: 1;
-            }
-            .services-grid {
-                flex-direction: column;
-                align-items: center;
+            .hero-text h1 {
+                font-size: 2.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Contenido de la Página Web -->
-    <div class="container">
-        <header class="navbar">
-            <div class="logo">Lilo</div>
+    <div class="animated-bg"></div>
+
+    <section class="hero-section">
+        <header class="navbar container">
+            <div class="logo">
+                <img src="https://i.ibb.co/L9H8z6M/Logo-Aurora.jpg" alt="Aurora Logo">
+            </div>
             <nav class="nav-links">
+                <a href="#" class="nav-link">Features</a>
                 <a href="#" class="nav-link">About</a>
-                <a href="#" class="nav-link">Blog</a>
-                <a href="#" class="nav-link">Services</a>
-                <a href="#" class="nav-link">Contacts</a>
+                <a href="#" class="nav-link">Contact</a>
+                <a href="#" class="cta-button">Try Aurora</a>
             </nav>
         </header>
-    </div>
-
-    <!-- Sección de Bienvenida (con animación) -->
-    <section class="hero-section fade-in">
-        <div class="container">
-            <h1 class="fade-in">Big data for big <span class="pink-text">success</span></h1>
-            <p class="fade-in">
-                                Tu eslogan aquí. Describe tu empresa y lo que haces para tus clientes.
-            </p>
-        </div>
-    </section>
-
-    <!-- Sección "Nuestro Enfoque" (con animación) -->
-    <section class="section approach-section fade-in">
-        <div class="container approach-grid">
-            <div class="approach-text">
-                <h2 class="fade-in">Our <span class="pink-text">approach</span></h2>
-                <div class="step fade-in">
-                    <span class="step-number">1</span>
-                    <div class="step-content">
-                        <h3>Business Challenge Review</h3>
-                        <p>We help you realize the biggest challenges you're facing.</p>
-                    </div>
+        
+        <div class="hero-content container">
+            <div class="hero-text">
+                <div class="logo-and-text">
+                    <h2>Aurora</h2>
+                    <h1>El copiloto financiero impulsado por IA</h1>
                 </div>
-                <div class="step fade-in">
-                    <span class="step-number">2</span>
-                    <div class="step-content">
-                        <h3>Data Collection and Preparation</h3>
-                        <p>Together, we'll collect and format all relevant data.</p>
-                    </div>
-                </div>
-                <!-- Añade más pasos si lo deseas -->
+                <p>Automatizando informes, optimizando Excel y manteniendo tus datos seguros.</p>
+                <a href="#" class="cta-button">Únete a la lista de espera</a>
             </div>
-            <div>
-                            </div>
-        </div>
-    </section>
-
-    <!-- Sección "Lo que hacemos bien" (con animación) -->
-    <section class="section services-section fade-in">
-        <div class="container">
-            <h2 class="fade-in white-text">What we're <span class="pink-text">good at?</span></h2>
-            <p class="fade-in" style="max-width: 600px; margin: 0 auto 50px;">
-                We believe in your success and that big data can help you achieve the best
-                results for your business, regardless of your field or target market.
-            </p>
-
-            <div class="services-grid">
-                <div class="service-item fade-in">
-                    <!-- Icono de "Big Data Consulting" -->
-                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16H8a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zm5-8h-3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z"></path>
-                    </svg>
-                    <h3>Big Data Consulting</h3>
-                    <p>
-                        Sometimes you need to look far to see close. Our experts help you make sense of big data.
-                    </p>
-                </div>
-                <div class="service-item fade-in">
-                    <!-- Icono de "Data Infrastructure" -->
-                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M19 14h-2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1zM13 18h-2a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zM7 22H5a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zM19 22h-2a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zM13 22h-2a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1zM7 18H5a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z"></path>
-                    </svg>
-                    <h3>Data Infrastructure & Engineering</h3>
-                    <p>
-                        It's not enough to have data, you also need to have the right tools to manage it day-to-day.
-                    </p>
+            <div class="hero-image-container">
+                <!-- Contenedor para las barras de la gráfica -->
+                <div class="chart-container">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Script para la animación de fade-in -->
+    
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: "0px",
-                threshold: 0.1
-            };
+        const animatedBg = document.querySelector('.animated-bg');
+        const chartContainer = document.querySelector('.chart-container');
+        const bars = document.querySelectorAll('.bar');
+        
+        const mouse = { x: 0, y: 0 };
+        const chartPos = { x: 0, y: 0 };
+        
+        // Almacena las transformaciones base para cada barra
+        const initialTransforms = new Map();
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
+        chartContainer.addEventListener('mousemove', (e) => {
+            const rect = chartContainer.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
 
-            const sections = document.querySelectorAll(".fade-in");
-            sections.forEach(section => {
-                observer.observe(section);
+            bars.forEach(bar => {
+                const barRect = bar.getBoundingClientRect();
+                const barX = barRect.left + barRect.width / 2 - rect.left;
+                const barY = barRect.top + barRect.height / 2 - rect.top;
+
+                const dx = mouse.x - barX;
+                const dy = mouse.y - barY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                const maxDistance = 150;
+                const force = Math.min(1, Math.max(0, 1 - distance / maxDistance));
+                
+                const pushX = dx * force * -0.5;
+                const pushY = dy * force * -0.5;
+
+                // Combina la transformación de 'push/pull' con la transformación original
+                const originalTransform = initialTransforms.get(bar) || 'translateY(0) scaleY(0)';
+                bar.style.transform = `translate(${pushX}px, ${pushY}px) ${originalTransform}`;
             });
         });
+
+        chartContainer.addEventListener('mouseleave', () => {
+            bars.forEach(bar => {
+                const originalTransform = initialTransforms.get(bar) || 'translateY(0) scaleY(0)';
+                bar.style.transform = originalTransform;
+            });
+        });
+
+        function animateBars() {
+            const secondBarY = Math.random() * 50;
+            
+            bars.forEach((bar, index) => {
+                const height = (index + 1) * 4;
+                let currentY;
+
+                if (index === 0) {
+                    currentY = secondBarY + (Math.random() * 10 - 5);
+                } else if (index === 1) {
+                    currentY = secondBarY;
+                } else {
+                    currentY = Math.random() * 50;
+                }
+                
+                const finalTransform = `translateY(${currentY}px) scaleY(1)`;
+                initialTransforms.set(bar, finalTransform);
+
+                setTimeout(() => {
+                    bar.style.height = `${height}%`;
+                    bar.style.transform = finalTransform;
+                    bar.style.opacity = '1';
+                }, index * 50);
+            });
+        }
+        
+        function resetBars() {
+            bars.forEach((bar) => {
+                bar.style.transform = 'translateY(0) scaleY(0)';
+                bar.style.opacity = '0';
+            });
+        }
+
+        // Inicia la animación de barras cuando la página carga y la repite
+        window.onload = function() {
+            const delay = bars.length * 50 + 1500;
+            
+            animateBars();
+            setInterval(() => {
+                resetBars();
+                setTimeout(animateBars, 100);
+            }, delay);
+        };
     </script>
 
 </body>
